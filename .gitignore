@@ -1,0 +1,5 @@
+# User will need to manually add these files
+lib
+
+cmake-build-debug
+.idea
