@@ -24,7 +24,13 @@ void ObjectEditor::Update(GameObject* target) {
 	bool updateTexture = false;
 
 	ImGui::Begin("Object Editor");
-	ImGui::LabelText("Memory Location", "0x%X", this);
+	if (target == nullptr) {
+		ImGui::Text("Left-click on an object to select it, \nright-click to deselect.");
+		ImGui::End();
+		return;
+	}
+
+	ImGui::LabelText("Memory Location", "0x%X", target);
 	valueChanged |= ImGui::SliderInt2("Position", pos, 0, 1000, "%dpx");
 
 	valueChanged |= ImGui::Checkbox("Keep Square", &keepSquare);

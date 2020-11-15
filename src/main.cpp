@@ -7,6 +7,7 @@
 #include <numeric>
 
 #include "GameObject.h"
+#include "ObjectEditor.h"
 
 constexpr int WINDOW_WIDTH = 1280;
 constexpr int WINDOW_HEIGHT = 720;
@@ -31,12 +32,21 @@ int main() {
 	fpsHistory.push_back(0);
 	float time = 0;
 
+	GameObject* selectedObject = nullptr;
+
 	while (window.isOpen()) {
 		// Update SFML events
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
-			if (event.type == sf::Event::Closed)
+			if (event.type == sf::Event::Closed) {
 				window.close();
+			} else if (event.type == sf::Event::MouseButtonPressed) {
+				if (event.mouseButton.button == sf::Mouse::Right) {
+					selectedObject = nullptr;
+				} else if (object.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
+					selectedObject = &object;
+				}
+			}
 		}
 
 		// Update timer
@@ -60,7 +70,8 @@ int main() {
 
 		// Update objects
 		ImGui::SFML::Update(window, delta);
-		object.Update(&editor);
+		editor.Update(selectedObject);
+		object.Update();
 
 		// Show debug window
 		ImGui::Begin("Debug Info");

@@ -1,18 +1,17 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <utility>
 
-class ObjectEditor;
-#include "ObjectEditor.h"
 #include "ResourceManager.h"
 
 class GameObject {
 public:
-	GameObject(std::shared_ptr<ResourceManager> resourceManager)
-	: position(0, 0), size(100, 100), colour(sf::Color::White), resourceManager(resourceManager) {};
+	explicit GameObject(std::shared_ptr<ResourceManager> resourceManager);
 
 	void Draw(sf::RenderWindow& window);
-	void Update(ObjectEditor* editor);
+	void Update();
+	bool WithinBounds(int x, int y) const;
 
 	sf::Vector2f position;
 	sf::Vector2f size;
