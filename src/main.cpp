@@ -19,8 +19,10 @@ int main() {
 	ImGui::SFML::Init(window);
 
 	sf::Event event{};
-	GameObject object;
-	ObjectEditor editor;
+	std::shared_ptr<ResourceManager> resources = std::make_shared<ResourceManager>();
+
+	GameObject object(resources);
+	ObjectEditor editor(resources);
 	
 	sf::Clock clock;
 	clock.restart();
