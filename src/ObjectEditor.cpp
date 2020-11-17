@@ -30,6 +30,11 @@ void ObjectEditor::Update(GameObject* target) {
 		return;
 	}
 
+	// TODO: Create helper functions so this is not needed
+	float col[3] = { target->colour.r / 255.f, target->colour.g / 255.f, target->colour.b / 255.f };
+	int pos[2] = { (int) target->position.x, (int) target->position.y };
+	int scale[2] = { (int) target->size.x, (int) target->size.y };
+
 	ImGui::LabelText("Memory Location", "0x%X", target);
 	valueChanged |= ImGui::SliderInt2("Position", pos, 0, 1000, "%dpx");
 

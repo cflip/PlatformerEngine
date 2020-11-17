@@ -22,7 +22,11 @@ int main() {
 	sf::Event event{};
 	std::shared_ptr<ResourceManager> resources = std::make_shared<ResourceManager>();
 
-	GameObject object(resources);
+	std::vector<GameObject> objects;
+	objects.emplace_back(resources);
+	objects.emplace_back(resources);
+	objects.emplace_back(resources);
+
 	ObjectEditor editor(resources);
 	
 	sf::Clock clock;
@@ -43,8 +47,12 @@ int main() {
 			} else if (event.type == sf::Event::MouseButtonPressed) {
 				if (event.mouseButton.button == sf::Mouse::Right) {
 					selectedObject = nullptr;
-				} else if (object.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
-					selectedObject = &object;
+				} else {
+					for (GameObject& obj : objects)
+						if (obj.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
+							selectedObject = &obj;
+							break;
+						}
 				}
 			}
 		}
@@ -71,7 +79,10 @@ int main() {
 		// Update objects
 		ImGui::SFML::Update(window, delta);
 		editor.Update(selectedObject);
-		object.Update();
+		for (GameObject& object : objects) {
+			object.Update();
+		}
+
 
 		// Show debug window
 		ImGui::Begin("Debug Info");
@@ -84,7 +95,9 @@ int main() {
 
 		// Redraw scene
 		window.clear();
-		object.Draw(window);
+		for (GameObject& object : objects) {
+			object.Draw(window);
+		}
 		ImGui::SFML::Render(window);
 		window.display();
 	}
