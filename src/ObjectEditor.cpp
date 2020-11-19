@@ -25,7 +25,7 @@ void ObjectEditor::Update(GameObject* target) {
 
 	ImGui::Begin("Object Editor");
 	if (target == nullptr) {
-		ImGui::Text("Left-click on an object to select it, \nright-click to deselect.");
+		ImGui::Text("Click on an object to select it");
 		ImGui::End();
 		return;
 	}

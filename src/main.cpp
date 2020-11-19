@@ -18,6 +18,7 @@ int main() {
 	window.setFramerateLimit(WINDOW_FRAMERATE);
 	
 	ImGui::SFML::Init(window);
+	ImGuiIO& imGuiIo = ImGui::GetIO();
 
 	sf::Event event{};
 	std::shared_ptr<ResourceManager> resources = std::make_shared<ResourceManager>();
@@ -45,14 +46,18 @@ int main() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			} else if (event.type == sf::Event::MouseButtonPressed) {
-				if (event.mouseButton.button == sf::Mouse::Right) {
+				// Ignore current event if ImGui has handled it
+				if (imGuiIo.WantCaptureMouse) break;
+
+				for (GameObject& obj : objects) {
+					obj.isSelected = false;
+					if (obj.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
+						obj.isSelected = true;
+						selectedObject = &obj;
+						break;
+					}
+					// No object found under mouse pointer
 					selectedObject = nullptr;
-				} else {
-					for (GameObject& obj : objects)
-						if (obj.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
-							selectedObject = &obj;
-							break;
-						}
 				}
 			}
 		}
@@ -82,7 +87,6 @@ int main() {
 		for (GameObject& object : objects) {
 			object.Update();
 		}
-
 
 		// Show debug window
 		ImGui::Begin("Debug Info");

@@ -21,6 +21,13 @@ void GameObject::Update() {
 
 		isDirty = false;
 	}
+
+	if (isSelected) {
+		rect.setOutlineColor(sf::Color::Green);
+		rect.setOutlineThickness(2.f);
+	} else {
+		rect.setOutlineThickness(0.f);
+	}
 }
 
 bool GameObject::WithinBounds(int x, int y) const {

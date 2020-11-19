@@ -19,6 +19,7 @@ public:
 
 	int texIndex = 0;
 	bool isDirty = true;
+	bool isSelected = false;
 private:
 	sf::RectangleShape rect;
 	std::shared_ptr<ResourceManager> resourceManager;
