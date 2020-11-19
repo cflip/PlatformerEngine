@@ -1,6 +1,8 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.12)
 set(PROJECT_NAME "PlatformerEngine")
 project(${PROJECT_NAME})
+
+set(CMAKE_EXE_LINKER_FLAGS -static)
 
 set(CMAKE_CXX_STANDARD 17)
 
@@ -14,6 +16,7 @@ file(COPY ${REQUIRED_DLLS} DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 link_libraries(stdc++fs)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${IMGUI_SOURCE})
 
+set(SFML_STATIC_LIBRARIES TRUE)
 find_package(SFML REQUIRED system window graphics)
 include_directories(${CMAKE_CURRENT_LIST_DIR}/lib/SFML/include ${CMAKE_CURRENT_LIST_DIR}/lib/ImGui/)
 target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system)
