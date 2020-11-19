@@ -49,15 +49,17 @@ int main() {
 				// Ignore current event if ImGui has handled it
 				if (imGuiIo.WantCaptureMouse) break;
 
+				bool foundSelection = false;
 				for (GameObject& obj : objects) {
 					obj.isSelected = false;
-					if (obj.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
+
+					if (!foundSelection && obj.WithinBounds(event.mouseButton.x, event.mouseButton.y)) {
 						obj.isSelected = true;
 						selectedObject = &obj;
-						break;
+						foundSelection = true;
 					}
-					// No object found under mouse pointer
-					selectedObject = nullptr;
+
+					if (!foundSelection) selectedObject = nullptr;
 				}
 			}
 		}
