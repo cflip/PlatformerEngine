@@ -4,9 +4,9 @@ project(${PROJECT_NAME})
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
-set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/lib/ImGui")
+set(IMGUI_DIR "${CMAKE_CURRENT_LIST_DIR}/ImGui")
 set(BUILD_SHARED_LIBS ON)
-add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/lib/ImGui-SFML" ImGui-SFML)
+add_subdirectory(ImGui-SFML)
 
 file(GLOB SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/*.h")
 

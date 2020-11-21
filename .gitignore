@@ -4,7 +4,6 @@ CMakeCache.txt
 cmake_install.cmake
 Makefile
 PlatformerEngine
-ImGui-SFML
 
 # IDE generated files
 cmake-build-debug
