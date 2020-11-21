@@ -1,5 +1,17 @@
 # User will need to manually add these files
 lib
 
+# CMake generated files
+CMakeFiles
+CMakeCache.txt
+cmake_install.cmake
+Makefile
+PlatformerEngine
+
+# IDE generated files
 cmake-build-debug
 .idea
+.vscode
+
+imgui.ini
+.DS_Store

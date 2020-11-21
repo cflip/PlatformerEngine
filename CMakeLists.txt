@@ -2,19 +2,17 @@ cmake_minimum_required(VERSION 3.12)
 set(PROJECT_NAME "PlatformerEngine")
 project(${PROJECT_NAME})
 
-set(CMAKE_EXE_LINKER_FLAGS -static)
-
-set(CMAKE_CXX_STANDARD 17)
-
-set(SFML_DIR "${CMAKE_CURRENT_LIST_DIR}/lib/SFML/lib/cmake/SFML")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++17")
 
 file(GLOB SOURCE_FILES "${CMAKE_CURRENT_LIST_DIR}/src/*.cpp" "${CMAKE_CURRENT_LIST_DIR}/src/*.h")
 file(GLOB IMGUI_SOURCE "${CMAKE_CURRENT_LIST_DIR}/lib/ImGui/*.cpp" "${CMAKE_CURRENT_LIST_DIR}/lib/ImGui/*.h")
 
-link_libraries(stdc++fs)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES} ${IMGUI_SOURCE})
 
-set(SFML_STATIC_LIBRARIES TRUE)
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake_modules")
 find_package(SFML REQUIRED system window graphics)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/lib/SFML/include ${CMAKE_CURRENT_LIST_DIR}/lib/ImGui/)
-target_link_libraries(${PROJECT_NAME} opengl32 sfml-graphics sfml-window sfml-system)
+find_package(OpenGL REQUIRED)
+if (SFML_FOUND)
+	include_directories(${SFML_INCLUDE_DIR} ${CMAKE_CURRENT_LIST_DIR}/lib/ImGui/)
+	target_link_libraries(${PROJECT_NAME} ${SFML_DEPENDENCIES} ${SFML_LIBRARIES} ${OPENGL_LIBRARIES})
+endif()

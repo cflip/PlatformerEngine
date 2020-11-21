@@ -1,9 +1,17 @@
 #include "ResourceManager.h"
 
 #include <iostream>
-#include <experimental/filesystem>
-
-namespace fs = std::experimental::filesystem;
+#ifdef __has_include                        
+	#if __has_include(<filesystem>)
+		#include <filesystem>
+		namespace fs = std::filesystem;
+	#elif __has_include(<experimental/filesystem>)
+		#include <experimental/filesystem>
+		namespace fs = std::experimental::filesystem;
+	#else
+		#error "This project requires the std::filesystem library"
+	#endif
+#endif
 
 ResourceManager::ResourceManager() {
 	textures.emplace_back("[no texture]", nullptr);
