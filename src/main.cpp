@@ -16,7 +16,8 @@ constexpr int WINDOW_FRAMERATE = 120;
 int main() {
 	sf::RenderWindow window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "PlatformerEngine");
 	window.setFramerateLimit(WINDOW_FRAMERATE);
-	
+	sf::FloatRect windowSize(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
+
 	ImGui::SFML::Init(window);
 	ImGuiIO& imGuiIo = ImGui::GetIO();
 
@@ -43,9 +44,14 @@ int main() {
 		// Update SFML events
 		while (window.pollEvent(event)) {
 			ImGui::SFML::ProcessEvent(event);
-			if (event.type == sf::Event::Closed) {
+			switch (event.type) {
+			case sf::Event::Closed:
 				window.close();
-			} else if (event.type == sf::Event::MouseButtonPressed) {
+				break;
+			case sf::Event::Resized:
+				windowSize = sf::FloatRect(0, 0, event.size.width, event.size.height);
+				window.setView(sf::View(windowSize));
+			case sf::Event::MouseButtonPressed:
 				// Ignore current event if ImGui has handled it
 				if (imGuiIo.WantCaptureMouse) break;
 
@@ -61,6 +67,8 @@ int main() {
 
 					selectedObject = nullptr;
 				}
+			default:
+				break;
 			}
 		}
 
@@ -85,7 +93,7 @@ int main() {
 
 		// Update objects
 		ImGui::SFML::Update(window, delta);
-		editor.Update(selectedObject);
+		editor.Update(selectedObject, windowSize);
 		for (GameObject& object : objects) {
 			object.Update();
 		}

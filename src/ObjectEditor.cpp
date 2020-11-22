@@ -19,7 +19,7 @@ static bool getPathFromVector(void* vector, int index, const char** result) {
 
 ObjectEditor::ObjectEditor(std::shared_ptr<ResourceManager> resourceManager) : resourceManager(std::move(resourceManager)) {}
 
-void ObjectEditor::Update(GameObject* target) {
+void ObjectEditor::Update(GameObject* target, sf::FloatRect& windowSize) {
 	bool valueChanged = false;
 	bool updateTexture = false;
 
@@ -36,7 +36,7 @@ void ObjectEditor::Update(GameObject* target) {
 	int scale[2] = { (int) target->size.x, (int) target->size.y };
 
 	ImGui::LabelText("Memory Location", "0x%X", target);
-	valueChanged |= ImGui::SliderInt2("Position", pos, 0, 1000, "%dpx");
+	valueChanged |= ImGui::SliderInt2("Position", pos, 0, std::max(windowSize.width, windowSize.height), "%dpx");
 
 	valueChanged |= ImGui::Checkbox("Keep Square", &keepSquare);
 
